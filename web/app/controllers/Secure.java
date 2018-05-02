@@ -18,6 +18,12 @@ public class Secure extends Controller {
     }
 
     public static void authenticate(String username, String password){
+        if ( username.equals("") ) {
+            flash.put("error", Messages.get("Public.login.error.credentials"));
+            login();
+            return;
+        }
+
         User u = User.loadUser(username);
         if (u != null && u.getPassword().equals(HashUtils.getMd5(password))){
             session.put("username", username);
